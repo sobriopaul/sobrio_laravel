@@ -30,19 +30,14 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'specialization' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required'
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'specialization' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required', 'string', 'max:50'],
         ]);
 
-        Doctor::create([
-            'name' => $request->name,
-            'specialization' => $request->specialization,
-            'email' => $request->email,
-            'phone' => $request->phone
-        ]);
+        Doctor::create($validated);
 
         return redirect()
         ->route('doctors.index')
@@ -52,11 +47,6 @@ class DoctorController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -70,19 +60,14 @@ class DoctorController extends Controller
      */
     public function update(Request $request, Doctor $doctor)
     {
-         $request->validate([
-            'name' => 'required',
-            'specialization' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required'
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'specialization' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'phone' => ['required', 'string', 'max:50'],
         ]);
 
-          $doctor->update([
-            'name' => $request->name,
-            'specialization' => $request->specialization,
-            'email' => $request->email,
-            'phone' => $request->phone
-        ]);
+        $doctor->update($validated);
 
         return redirect()
         ->route('doctors.index')
